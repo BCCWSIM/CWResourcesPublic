@@ -81,21 +81,18 @@ function createDropdown(id, options) {
 
     return select;
 }
-// Update displayGallery function
 function displayGallery() {
     const selectedCategory = document.getElementById('categorySelect').value;
     let selectedSubcategory = document.getElementById('subcategorySelect').value;
 
-    // Filter subcategories based on selected category
+    // Create a set to hold filtered subcategories
     let filteredSubcategories = new Set();
-    if (selectedCategory !== 'All') {
-        for (let i = 1; i < items.length; i++) {
-            if (items[i][categoryIndex] === selectedCategory) {
-                filteredSubcategories.add(items[i][subcategoryIndex]);
-            }
+
+    // Populate filteredSubcategories based on all items
+    for (let i = 1; i < items.length; i++) {
+        if (selectedCategory === 'All' || items[i][categoryIndex] === selectedCategory) {
+            filteredSubcategories.add(items[i][subcategoryIndex]);
         }
-    } else {
-        filteredSubcategories = new Set(items.slice(1).map(item => item[subcategoryIndex]));
     }
 
     // Update subcategory dropdown options
@@ -117,7 +114,7 @@ function displayGallery() {
     const gallery = document.getElementById('csvGallery');
     gallery.innerHTML = '';
     for (let i = 1; i < items.length; i++) {
-        // Display all items if "All" is selected, otherwise only display items that match the selected category and subcategory
+        // Display items based on selected category and subcategory
         if ((selectedCategory === 'All' || items[i][categoryIndex] === selectedCategory) &&
             (selectedSubcategory === 'All' || items[i][subcategoryIndex] === selectedSubcategory)) {
             const div = createCard(items[i]);
@@ -125,6 +122,7 @@ function displayGallery() {
         }
     }
 }
+
 
 // Create option for dropdown
 function createOption(value) {
